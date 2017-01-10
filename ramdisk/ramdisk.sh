@@ -37,6 +37,8 @@ if [[ $EUID -ne 0 ]]; then
         exit 1
 fi
 
+
+
 #
 #       Start
 #
@@ -218,6 +220,7 @@ echo "#Archive location">> $configfile
 echo "archive="$install_archive >> $configfile
 
 
+
 #
 #       Make ramdisk as a service
 #
@@ -249,12 +252,11 @@ echo "archive="$install_archive >> $configfile
                 echo ""
                 df -h "$location"
                 echo ""
-
-
         fi
-
-
 }
+
+
+
 #
 #       Select case switch
 #
