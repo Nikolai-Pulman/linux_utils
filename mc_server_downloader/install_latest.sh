@@ -1,23 +1,23 @@
 #!/bin/bash
-manifest_json="https://launchermeta.mojang.com/mc/game/version_manifest.json"
-
-
 
 #Define jar filenames
-
 release_file="minecraft_server.jar"
 snapshot_file="minecraft_latest.jar"
 
+#
+#
 # NO EDIT BELLOW THIS POINT
 #
 #
-#
-#
-#
+
+
+#Manifest json
+manifest_json="https://launchermeta.mojang.com/mc/game/version_manifest.json"
+
 
 #script switch
 #
-# Accepted arguments are: release, snapshot
+# Accepted arguments are: release, snapshot all
 #
 command=$(echo $1 | sed 's/--//')
 
@@ -27,8 +27,7 @@ snapshot=$(curl -s $manifest_json | jq -r ".latest.snapshot")
 
 #Metadata json url
 release_json_url=$(curl -s  $manifest_json | jq -r --arg version "$release" '.versions[] | select(.id==$version) | .url' | tr -d \" )
-snapshot_json_url=$(curl -s $manifest_json | jq -r --arg version "$snapshot" '.versions[] | select(.id=="1.17-rc2") | .url'| tr -d \" )
-
+snapshot_json_url=$(curl -s $manifest_json | jq -r --arg version "$snapshot" '.versions[] | select(.id==$version) | .url'| tr -d \" )
 
 #jar file download urls
 release_url=$(curl -s   $release_json_url | jq -r '.downloads.server.url' | tr -d \" )
@@ -76,9 +75,6 @@ case $command in
          printf '%*s\n' "${COLUMNS:-$(tput cols)}" '' | tr ' ' -
    ;;
 esac
-
-#Debug EXIT
-#exit 1
 
 #ask and download
 read -r -p "Released version is : "$release". Download? [y/N] " response
